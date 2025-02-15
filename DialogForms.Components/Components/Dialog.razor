@@ -1,0 +1,81 @@
+﻿@inject IJSRuntime JsRuntime
+@inject IModalService ModalService
+@using DialogForms.Components.Enums
+@implements IDisposable
+<div class="modal fade @(IsVisible ? "show d-block" : "")" tabindex="-1"
+     style="@(IsVisible ? "display:block;" : "display:none;")"
+     aria-hidden="@(IsVisible ? "false" : "true")"
+     data-bs-backdrop="static"
+     @ref="ModalElement">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" @onclick:stopPropagation="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                @{
+                    if (!string.IsNullOrEmpty(Title))
+                    {
+                        <h5 class="modal-title">@Title</h5>
+                    }
+                }
+                <button type="button" class="btn-close" aria-label="Close" @onclick="HideAsync"></button>
+            </div>
+            <div class="modal-body">
+                @{
+                    if (ChildComponent is not null)
+                    {
+                        <DynamicComponent Type="@ChildComponent" Parameters="@Parameters" />
+                    }
+                    else if (!string.IsNullOrEmpty(Message))
+                    {
+                        <p>@Message</p>
+                    }
+                }
+            </div>
+            <div class="modal-footer">
+                <div class="dialog-footer">
+                    @{
+                        switch (EventType)
+                        {
+                            case EventTypes.Ok:
+                                <button type="button" @onclick="@ModalOk" class="btn btn-primary" title="Close">
+                                    <span class="bi-x-square"></span>
+                                </button>
+                                break;
+
+                            case EventTypes.OkCancel:
+                                <button type="button" @onclick="@ModalCancel" class="btn btn-primary" autofocus title="Close">
+                                    <span class="bi-x-square"></span>
+                                </button>
+                                <button type="button" @onclick="@ModalOk" class="btn btn-success" title="Save">
+                                    <span class="bi-floppy"></span>
+                                </button>
+                                break;
+
+                            case EventTypes.SaveCancel:
+                                <button type="button" @onclick="@ModalCancel" class="btn btn-primary" autofocus title="Close">
+                                    <span class="bi-x-square"></span>
+                                </button>
+                                <button type="button" @onclick="@ModalOk" form="AddOrEditForm" class="btn btn-success" title="Save">
+                                    <span class="bi-floppy"></span>
+                                </button>
+                                break;
+
+                            case EventTypes.DeleteCancel:
+                                <button type="button" @onclick="@ModalCancel" class="btn btn-primary" autofocus title="Close">
+                                    <span class="bi-x-square"></span>
+                                </button>
+                                <button type="button" @onclick="@ModalOk" class="btn btn-danger" title="Delete">
+                                    <span class="bi-trash"></span>
+                                </button>
+                                break;
+                            case EventTypes.Cancel:
+                                <button type="button" @onclick="@HideAsync" class="btn btn-primary" title="Close">
+                                    <span class="bi-x-square"></span>
+                                </button>
+                                break;
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

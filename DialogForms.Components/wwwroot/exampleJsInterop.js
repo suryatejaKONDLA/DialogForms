@@ -13,3 +13,12 @@ window.bootstrapModalHide = (element) => {
         }
     }
 };
+
+
+window.makeModalDraggable = (id) => {
+    $("#" + id).draggable({ handle: ".modal-header" });
+};
+
+window.makeModalResizable = (id) => {
+    $("#" + id).resizable();
+};

@@ -2,26 +2,29 @@
 
 <PageTitle>Weather</PageTitle>
 
-<h1>Weather</h1>
+<div>
+    <h1>Weather</h1>
 
-<p>This component demonstrates showing data.</p>
+    <p>This component demonstrates showing data.</p>
 
-@if (Forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
+    @if (Forecasts == null)
+    {
+        <p>
+            <em>Loading...</em>
+        </p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
             <tr>
                 <th>Date</th>
                 <th aria-label="Temperature in Celsius">Temp. (C)</th>
                 <th aria-label="Temperature in Farenheit">Temp. (F)</th>
                 <th>Summary</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @foreach (var forecast in Forecasts)
             {
                 <tr>
@@ -31,9 +34,10 @@ else
                     <td>@forecast.Summary</td>
                 </tr>
             }
-        </tbody>
-    </table>
-}
+            </tbody>
+        </table>
+    }
+</div>
 
 @code {
     private WeatherForecast[]? Forecasts;
@@ -60,4 +64,5 @@ else
         public string? Summary { get; set; }
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
     }
+
 }

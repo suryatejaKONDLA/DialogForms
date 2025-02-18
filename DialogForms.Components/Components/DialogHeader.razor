@@ -1,0 +1,47 @@
+﻿<div class="modal-header">
+    @{
+        if (HeaderTemplate != null)
+        {
+            @HeaderTemplate
+        }
+        else
+        {
+            <div class="align-items-center d-flex">
+                @{
+                    if (ShowIcon)
+                    {
+                        <i aria-hidden="true"
+                           class="@(GetIconClass()) px-2">
+                        </i>
+                    }
+                }
+                <div>
+                    <h5 class="modal-title">
+                        @GetActionTitle()
+                    </h5>
+                    @{
+                        if (!string.IsNullOrEmpty(Subtitle))
+                        {
+                            <small class="text-muted">@Subtitle</small>
+                        }
+                    }
+                </div>
+            </div>
+        }
+
+        if (ShowCloseButton)
+        {
+            <button aria-label="@CloseButtonAriaLabel"
+                    class="btn-close"
+                    @onclick="OnCloseClick"
+                    type="button">
+                @{
+                    if (!string.IsNullOrEmpty(CloseButtonText))
+                    {
+                        @CloseButtonText
+                    }
+                }
+            </button>
+        }
+    }
+</div>

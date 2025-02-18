@@ -1,0 +1,17 @@
+﻿<div class="modal-body">
+    @{
+        if (BodyTemplate != null)
+        {
+            @BodyTemplate
+        }
+        else if (ChildComponent is not null)
+        {
+            <DynamicComponent Parameters="@Parameters"
+                              Type="@ChildComponent" />
+        }
+        else
+        {
+            <p class="text-muted">No content available.</p>
+        }
+    }
+</div>

@@ -1,6 +1,6 @@
 ﻿namespace DialogForms.Components.Enums;
 
-public enum EventTypes
+public enum ButtonTypes
 {
     Ok,
     OkCancel,

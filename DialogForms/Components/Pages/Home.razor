@@ -2,22 +2,41 @@
 @inject IModalService ModalService
 <PageTitle>Home</PageTitle>
 
-<Dialog EventType="EventTypes.DeleteCancel"></Dialog>
+<Dialog ButtonType="ButtonTypes.DeleteCancel"></Dialog>
 
 <h3>Modal Demo</h3>
 
-<button class="btn btn-primary" @onclick="ShowCounter">Show Employee Details</button>
-<button class="btn btn-primary" @onclick="ShowWeather">Show Weather Details</button>
+<button class="btn btn-primary"
+        @onclick="ShowCounter">
+    Show Employee Details
+</button>
+<button class="btn btn-primary"
+        @onclick="ShowWeather">
+    Show Weather Details
+</button>
 
 @code {
+
     private async Task ShowCounter()
     {
         var component = typeof(Counter);
-        await ModalService.ShowAsync(title: "Counter", component, EventTypes.Ok, message: "Below are the details:");
+        // await ModalService.ShowAsync(title: "Counter", component, ButtonTypes.Ok, message: "Below are the details:");
     }
+
 
     private async Task ShowWeather()
     {
-        await ModalService.ShowAsync<Weather>(title: "Weather", EventTypes.DeleteCancel, message: "Below are the details:");
+        await ModalService.ShowAsync(new()
+        {
+            Title = "My Modal",
+            ChildComponent = typeof(Weather),
+            IsDraggable = true,
+            IsResizable = true,
+            IsBackdropStatic = true,
+            ShowFooter = true,
+            ActionType = ActionType.Update,
+            ButtonType = ButtonTypes.DeleteCancel
+        });
     }
+
 }

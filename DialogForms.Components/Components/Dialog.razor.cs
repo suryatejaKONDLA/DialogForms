@@ -1,35 +1,48 @@
-﻿using DialogForms.Components.Enums;
+﻿namespace DialogForms.Components.Components;
 
-namespace DialogForms.Components.Components;
-
-public partial class Dialog : ComponentBase
+public partial class Dialog : ComponentBase, IDisposable
 {
+    private bool IsLoading = false;
+
     private bool IsVisible;
 
-    private string Title { get; set; } = "";
+    private ElementReference ModalElement;
 
-    private string Message { get; set; } = "";
+    private string Title { get; set; } = string.Empty;
 
     private Type ChildComponent { get; set; }
 
     private Dictionary<string, object> Parameters { get; set; }
 
-    private ElementReference ModalElement;
+    [Parameter] public ButtonTypes ButtonType { get; set; } = ButtonTypes.SaveCancel;
 
+    [Parameter] public EventCallback OnModalOk { get; set; }
 
-    protected override void OnInitialized()
-    {
-        ModalService.OnShow += ShowModalAsync;
-    }
+    [Parameter] public EventCallback OnModalCancel { get; set; }
+
+    [Parameter] public RenderFragment FooterTemplate { get; set; }
+
+    [Parameter] public bool IsBackdropStatic { get; set; } = true;
+
+    [Parameter] public ActionType ActionType { get; set; }
+
+    [Parameter] public bool ShowFooter { get; set; }
+
+    public void Dispose() { ModalService.OnShow -= ShowModalAsync; }
+
+    protected override void OnInitialized() { ModalService.OnShow += ShowModalAsync; }
 
     private async Task ShowModalAsync(ModalOption options)
     {
         Title = options.Title;
-        Message = options.Message ?? "";
         ChildComponent = options.ChildComponent;
         Parameters = options.Parameters;
         IsVisible = true;
-        EventType = options.EventType;
+        IsLoading = options.IsLoading;
+        IsBackdropStatic = options.IsBackdropStatic;
+        ButtonType = options.ButtonType;
+        ActionType = options.ActionType;
+        ShowFooter = options.ShowFooter;
 
         await InvokeAsync(StateHasChanged);
         await JsRuntime.InvokeVoidAsync("bootstrapModalShow", ModalElement);
@@ -43,20 +56,6 @@ public partial class Dialog : ComponentBase
 
         ModalService.OnClose();
     }
-
-    public void Dispose()
-    {
-        ModalService.OnShow -= ShowModalAsync;
-    }
-
-    [Parameter]
-    public EventTypes EventType { get; set; } = EventTypes.SaveCancel;
-
-    [Parameter]
-    public EventCallback OnModalOk { get; set; }
-
-    [Parameter]
-    public EventCallback OnModalCancel { get; set; }
 
     private async Task ModalOk()
     {

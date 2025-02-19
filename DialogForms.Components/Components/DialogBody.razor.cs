@@ -7,4 +7,6 @@ public partial class DialogBody : ComponentBase
     [Parameter] public Dictionary<string, object> Parameters { get; set; } = new();
 
     [Parameter] public RenderFragment BodyTemplate { get; set; }
+
+    [Parameter] public bool IsLoading { get; set; }
 }

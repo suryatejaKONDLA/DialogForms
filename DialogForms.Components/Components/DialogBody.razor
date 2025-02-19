@@ -1,17 +1,28 @@
-﻿<div class="modal-body">
-    @{
-        if (BodyTemplate != null)
-        {
-            @BodyTemplate
-        }
-        else if (ChildComponent is not null)
-        {
-            <DynamicComponent Parameters="@Parameters"
-                              Type="@ChildComponent" />
-        }
-        else
-        {
-            <p class="text-muted">No content available.</p>
-        }
+﻿@{
+    if (IsLoading)
+    {
+        <div class="d-flex justify-content-center p-4">
+            <div class="spinner-border text-primary"
+                 role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     }
-</div>
+    else if (BodyTemplate != null)
+    {
+        <div class="modal-body">
+            @BodyTemplate
+        </div>
+    }
+    else if (ChildComponent is not null)
+    {
+        <DynamicComponent Parameters="@Parameters"
+                          Type="@ChildComponent" />
+    }
+    else
+    {
+        <div class="modal-body">
+            <p class="text-muted">No content available.</p>
+        </div>
+    }
+}

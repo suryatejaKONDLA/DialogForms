@@ -1,42 +1,103 @@
 ﻿@page "/"
 @inject IModalService ModalService
+@inject CustomerService CustomerDataService
+@implements IDisposable
 <PageTitle>Home</PageTitle>
 
-<Dialog ButtonType="ButtonTypes.DeleteCancel"></Dialog>
+<Dialog></Dialog>
 
-<h3>Modal Demo</h3>
-
-<button class="btn btn-primary"
-        @onclick="ShowCounter">
-    Show Employee Details
-</button>
-<button class="btn btn-primary"
-        @onclick="ShowWeather">
-    Show Weather Details
-</button>
+<div class="container">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-3">
+                <h3>Modal Demo</h3>
+                <button class="btn btn-primary"
+                        @onclick="AddCustomer">
+                    Add Customer
+                </button>
+            </div>
+            <div class="col-9">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>City</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var customer in Customers)
+                    {
+                        <tr>
+                            <td>@customer.FirstName</td>
+                            <td>@customer.LastName</td>
+                            <td>@customer.Email</td>
+                            <td>@customer.PhoneNumber</td>
+                            <td>@customer.City</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm"
+                                        @onclick="() => OnUpdateClick(customer)">
+                                    Update
+                                </button>
+                                <button class="btn btn-danger btn-sm"
+                                        @onclick="() => OnDeleteClick(customer)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
+    private List<CustomerModel> Customers = new();
 
-    private async Task ShowCounter()
+    protected override void OnInitialized()
     {
-        var component = typeof(Counter);
-        // await ModalService.ShowAsync(title: "Counter", component, ButtonTypes.Ok, message: "Below are the details:");
+        Customers = CustomerDataService.GetCustomers();
+        CustomerDataService.OnChange += StateHasChanged;
     }
 
-
-    private async Task ShowWeather()
+    private async Task AddCustomer()
     {
         await ModalService.ShowAsync(new()
         {
-            Title = "My Modal",
-            ChildComponent = typeof(Weather),
-            IsDraggable = true,
-            IsResizable = true,
-            IsBackdropStatic = true,
-            ShowFooter = true,
-            ActionType = ActionType.Update,
-            ButtonType = ButtonTypes.DeleteCancel
+            Title = "Customer",
+            ChildComponent = typeof(Customer),
+            Parameters = new()
+            {
+                { "ButtonType", ButtonTypes.OkCancel },
+                { "ActionType", ActionType.Add }
+            },
+            ActionType = ActionType.Add
         });
     }
+
+    private async Task OnUpdateClick(CustomerModel customer)
+    {
+        await ModalService.ShowAsync(new()
+        {
+            Title = "Customer",
+            ChildComponent = typeof(Customer),
+            Parameters = new()
+            {
+                { "ButtonType", ButtonTypes.OkCancel },
+                { "Context", customer },
+                { "ActionType", ActionType.Update }
+            },
+            ActionType = ActionType.Update
+        });
+    }
+
+    private void OnDeleteClick(CustomerModel customer) { CustomerDataService.DeleteCustomer(customer.Id); }
+
+    public void Dispose() { CustomerDataService.OnChange -= StateHasChanged; }
 
 }

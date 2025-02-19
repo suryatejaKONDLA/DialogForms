@@ -5,7 +5,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents(x => x.DetailedErrors = true);
 
 builder.Services.AddScoped<IModalService, ModalService>();
-
+builder.Services.AddScoped<CustomerService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

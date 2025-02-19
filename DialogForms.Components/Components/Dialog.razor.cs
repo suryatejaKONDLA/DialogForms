@@ -2,23 +2,25 @@
 
 public partial class Dialog : ComponentBase, IDisposable
 {
+    private Type ChildComponent = null!;
+
     private bool IsLoading = false;
 
     private bool IsVisible;
 
     private ElementReference ModalElement;
 
+    private Dictionary<string, object> Parameters = null!;
+
     private string Title { get; set; } = string.Empty;
 
-    private Type ChildComponent { get; set; }
+    [Parameter] public string Message { get; set; } = null!;
 
-    private Dictionary<string, object> Parameters { get; set; }
+    [Parameter] public RenderFragment BodyTemplate { get; set; } = null!;
+
+    [Parameter] public RenderFragment HeaderTemplate { get; set; } = null!;
 
     [Parameter] public ButtonTypes ButtonType { get; set; } = ButtonTypes.SaveCancel;
-
-    [Parameter] public EventCallback OnModalOk { get; set; }
-
-    [Parameter] public EventCallback OnModalCancel { get; set; }
 
     [Parameter] public RenderFragment FooterTemplate { get; set; }
 
@@ -28,9 +30,19 @@ public partial class Dialog : ComponentBase, IDisposable
 
     [Parameter] public bool ShowFooter { get; set; }
 
-    public void Dispose() { ModalService.OnShow -= ShowModalAsync; }
+    public void Dispose()
+    {
+        ModalService.OnShow -= ShowModalAsync;
+        ModalService.OnHide -= HideAsync;
+        ChildComponent = null!;
+        Parameters = null;
+    }
 
-    protected override void OnInitialized() { ModalService.OnShow += ShowModalAsync; }
+    protected override void OnInitialized()
+    {
+        ModalService.OnShow += ShowModalAsync;
+        ModalService.OnHide += HideAsync;
+    }
 
     private async Task ShowModalAsync(ModalOption options)
     {
@@ -39,37 +51,34 @@ public partial class Dialog : ComponentBase, IDisposable
         Parameters = options.Parameters;
         IsVisible = true;
         IsLoading = options.IsLoading;
-        IsBackdropStatic = options.IsBackdropStatic;
         ButtonType = options.ButtonType;
         ActionType = options.ActionType;
         ShowFooter = options.ShowFooter;
 
         await InvokeAsync(StateHasChanged);
         await JsRuntime.InvokeVoidAsync("bootstrapModalShow", ModalElement);
+
+        if (options.IsDraggable)
+        {
+            await JsRuntime.InvokeVoidAsync("makeModalDraggable", "modal-content");
+        }
     }
 
-    private async Task HideAsync()
+    public async Task HideAsync()
     {
         IsVisible = false;
+
+        Title = string.Empty;
+        ChildComponent = null!;
+        Parameters = null;
+        IsLoading = false;
+        ButtonType = ButtonTypes.SaveCancel;
+        ActionType = default;
+        ShowFooter = false;
+
         await InvokeAsync(StateHasChanged);
         await JsRuntime.InvokeVoidAsync("bootstrapModalHide", ModalElement);
 
-        ModalService.OnClose();
-    }
-
-    private async Task ModalOk()
-    {
-        if (OnModalOk.HasDelegate)
-        {
-            await OnModalOk.InvokeAsync();
-        }
-    }
-
-    private async Task ModalCancel()
-    {
-        if (OnModalCancel.HasDelegate)
-        {
-            await OnModalCancel.InvokeAsync();
-        }
+        //ModalService.OnClose();
     }
 }

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DialogForms.Components\DialogForms.Components.csproj" />
+    <ProjectReference Include="..\DialogForms.Models\DialogForms.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,21 @@
-﻿<div class="modal-footer">
-    <div class="dialog-footer">
-        @{
-            if (FooterTemplate is not null)
-            {
-                @FooterTemplate
-            }
-        }
-    </div>
-</div>
+﻿@{
+    if (ShowFooter)
+    {
+        <div>
+            <div class="modal-footer">
+                <div class="dialog-footer">
+                    @{
+                        if (FooterTemplate is not null)
+                        {
+                            @FooterTemplate
+                        }
+                        else
+                        {
+                            <ActionButton ButtonType="@(ButtonType)"></ActionButton>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}

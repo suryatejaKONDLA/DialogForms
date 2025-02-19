@@ -1,0 +1,157 @@
+﻿@inject CustomerService CustomerDataService
+@inject IModalService ModalService
+<DialogBody>
+    <BodyTemplate>
+        <EditForm EditContext="@EditContext"
+                  OnSubmit="OnSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary Class="alert alert-danger p-5" />
+            <h4>Customer Information</h4>
+            @{
+                if (ActionType == ActionType.Update)
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1>@($"{Model.Id}_{Model.FirstName} {Model.LastName}")</h1>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <InputText @bind-Value="Model.FirstName"
+                                   class="form-control" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <InputText @bind-Value="Model.LastName"
+                                   class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <InputDate @bind-Value="Model.DateOfBirth"
+                                   class="form-control" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <InputText @bind-Value="Model.Email"
+                                   class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <InputText @bind-Value="Model.PhoneNumber"
+                                   class="form-control" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Alternate Phone Number</label>
+                        <InputText @bind-Value="Model.AlternatePhoneNumber"
+                                   class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Address Line 1</label>
+                        <InputText @bind-Value="Model.AddressLine1"
+                                   class="form-control" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Address Line 2</label>
+                        <InputText @bind-Value="Model.AddressLine2"
+                                   class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>City</label>
+                        <InputText @bind-Value="Model.City"
+                                   class="form-control" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>State</label>
+                        <InputText @bind-Value="Model.State"
+                                   class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Postal Code</label>
+                        <InputText @bind-Value="Model.PostalCode"
+                                   class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-check form-group">
+                        <InputCheckbox @bind-Value="Model.IsSubscribedToNewsletter"
+                                       class="form-check-input" />
+                        <label class="form-check-label">Subscribe to Newsletter</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Preferred Contact Method</label>
+                        <InputSelect @bind-Value="Model.PreferredContactMethod"
+                                     class="form-control">
+                            <option value="">-- Select --</option>
+                            <option value="Email">Email</option>
+                            <option value="Phone">Phone</option>
+                            <option value="SMS">SMS</option>
+                        </InputSelect>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <InputTextArea @bind-Value="Model.Notes"
+                                       class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </BodyTemplate>
+</DialogBody>
+<div class="my-3"></div>
+<DialogFooter>
+    <FooterTemplate>
+        <ActionButton ButtonType="@(ButtonType)"
+                      CancelButtonClick="@(ResetForm)"
+                      OkButtonClick="@(() => OnSubmit(EditContext))">
+        </ActionButton>
+    </FooterTemplate>
+</DialogFooter>

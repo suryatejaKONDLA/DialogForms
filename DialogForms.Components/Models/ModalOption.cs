@@ -9,8 +9,6 @@ public class ModalOption
     public ButtonTypes ButtonType { get; set; }
     public bool IsLoading { get; set; }
     public bool ShowFooter { get; set; }
-    public bool IsDraggable { get; set; }
-    public bool IsResizable { get; set; }
-    public bool IsBackdropStatic { get; set; }
+    public bool IsDraggable { get; set; } = true;
     public ActionType ActionType { get; set; }
 }

@@ -3,55 +3,29 @@
 
 <div aria-hidden="@(IsVisible ? "false" : "true")"
      class="modal fade @(IsVisible ? "show d-block" : "")"
-     data-bs-backdrop="@(IsBackdropStatic ? "static" : "true")"
+     data-bs-backdrop="static"
      data-bs-keyboard="false"
      @ref="ModalElement"
-     style="@(IsVisible ? "display:block;" : "display:none;")"
      tabindex="-1">
 
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl"
          @onclick:stopPropagation="true">
-
         <div class="modal-content"
              id="modal-content">
-            <div>
-                <DialogHeader ActionType="@ActionType"
-                              OnCloseClick="HideAsync"
-                              Title="@Title">
-                </DialogHeader>
-            </div>
-
-            <div>
-                @{
-                    if (IsLoading)
-                    {
-                        <div class="d-flex justify-content-center p-4">
-                            <div class="spinner-border text-primary"
-                                 role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <DialogBody ChildComponent="@ChildComponent"
-                                    Parameters="@Parameters">
-                        </DialogBody>
-                    }
-                }
-            </div>
-            @{
-                if (ShowFooter)
-                {
-                    <div>
-                        <DialogFooter>
-                            <FooterTemplate>
-                                <ActionButton ButtonType="@(ButtonType)"></ActionButton>
-                            </FooterTemplate>
-                        </DialogFooter>
-                    </div>
-                }
-            }
+            <DialogHeader ActionType="@ActionType"
+                          HeaderTemplate="@HeaderTemplate"
+                          OnCloseClick="HideAsync"
+                          Title="@Title">
+            </DialogHeader>
+            <DialogBody BodyTemplate="@BodyTemplate"
+                        ChildComponent="@ChildComponent"
+                        IsLoading="@IsLoading"
+                        Parameters="@Parameters">
+            </DialogBody>
+            <DialogFooter ButtonType="@ButtonType"
+                          FooterTemplate="@FooterTemplate"
+                          ShowFooter="@ShowFooter">
+            </DialogFooter>
         </div>
     </div>
 </div>

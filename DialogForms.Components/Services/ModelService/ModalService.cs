@@ -3,27 +3,27 @@
 public class ModalService : IModalService
 {
     public event Func<ModalOption, Task> OnShow;
-    public event Action OnHide;
+    public event Func<Task> OnHide;
 
-    public Task ShowAsync(ModalOption modalOption) => OnShow?.Invoke(modalOption) ?? Task.CompletedTask;
-
-    public Task ShowAsync<T>(string title, ButtonTypes buttonType, bool isLoading = false, Dictionary<string, object> parameters = null)
+    public async Task ShowAsync(ModalOption modalOption)
     {
-        var options = new ModalOption
+        if (OnShow != null)
+        {
+            await OnShow.Invoke(modalOption);
+        }
+    }
+
+    public async Task ShowAsync<T>(string title, ButtonTypes buttonType, bool isLoading = false, Dictionary<string, object> parameters = null)
+    {
+        var modalOption = new ModalOption
         {
             Title = title,
-            ChildComponent = typeof(T),
-            Parameters = parameters,
             ButtonType = buttonType,
-            IsLoading = isLoading
+            IsLoading = isLoading,
+            Parameters = parameters
         };
-
-        return ShowAsync(options);
+        await ShowAsync(modalOption);
     }
 
-    public void OnClose()
-    {
-        OnHide?.Invoke();
-        OnHide = null;
-    }
+    public void OnClose() { OnHide?.Invoke(); }
 }

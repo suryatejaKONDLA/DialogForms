@@ -14,6 +14,8 @@ public partial class Dialog : ComponentBase, IDisposable
 
     private string Title { get; set; } = string.Empty;
 
+    private string ModalSize => Size.ToModalSizeClass();
+
     [Parameter] public string Message { get; set; } = null!;
 
     [Parameter] public RenderFragment BodyTemplate { get; set; } = null!;
@@ -29,6 +31,10 @@ public partial class Dialog : ComponentBase, IDisposable
     [Parameter] public ActionType ActionType { get; set; }
 
     [Parameter] public bool ShowFooter { get; set; }
+
+    [Parameter] public bool ShowBody { get; set; } = true;
+
+    [Parameter] public ModalSize Size { get; set; } = Enums.ModalSize.Regular;
 
     public void Dispose()
     {
@@ -51,9 +57,11 @@ public partial class Dialog : ComponentBase, IDisposable
         Parameters = options.Parameters;
         IsVisible = true;
         IsLoading = options.IsLoading;
+        Size = options.ModalSize;
         ButtonType = options.ButtonType;
         ActionType = options.ActionType;
         ShowFooter = options.ShowFooter;
+        ShowBody = options.ShowBody;
 
         await InvokeAsync(StateHasChanged);
         await JsRuntime.InvokeVoidAsync("bootstrapModalShow", ModalElement);

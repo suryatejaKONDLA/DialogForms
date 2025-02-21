@@ -25,5 +25,35 @@ public class ModalService : IModalService
         await ShowAsync(modalOption);
     }
 
+    private TaskCompletionSource<bool> ConfirmationTcs;
+
+    public async Task<bool> ShowConfirmationAsync(string title, string message)
+    {
+        ConfirmationTcs = new TaskCompletionSource<bool>();
+
+        var options = new ModalOption
+        {
+            Title = title,
+            Message = message,
+            ButtonType = ButtonTypes.YesNo,
+            ShowFooter = true,
+            ShowBody = false,
+            ActionType = ActionType.Delete,
+            ModalSize = ModalSize.Small
+        };
+
+        if (OnShow != null)
+        {
+            await OnShow.Invoke(options);
+        }
+
+        return await ConfirmationTcs.Task;
+    }
+
+    public void SetDialogResult(bool result)
+    {
+        ConfirmationTcs?.SetResult(result);
+    }
+
     public void OnClose() { OnHide?.Invoke(); }
 }

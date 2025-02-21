@@ -1,4 +1,5 @@
-﻿@{
+﻿@inject IModalService ModalService
+@{
     switch (ButtonType)
     {
         case ButtonTypes.Ok:
@@ -64,6 +65,21 @@
                     title="Close"
                     type="button">
                 <span class="bi-x-square"></span>
+            </button>
+            break;
+        case ButtonTypes.YesNo:
+            <button autofocus
+                    class="btn btn-primary"
+                    @onclick="@OnYesClicked"
+                    title="Close"
+                    type="button">
+                <span class="bi-x-square"></span>
+            </button>
+            <button class="btn btn-danger"
+                    @onclick="@OnNoClicked"
+                    title="Delete"
+                    type="button">
+                <span class="bi-trash"></span>
             </button>
             break;
     }

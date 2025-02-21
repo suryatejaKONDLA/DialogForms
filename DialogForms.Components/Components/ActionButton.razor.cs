@@ -7,4 +7,16 @@ public partial class ActionButton : ComponentBase
     [Parameter] public EventCallback<MouseEventArgs> OkButtonClick { get; set; }
 
     [Parameter] public EventCallback<MouseEventArgs> CancelButtonClick { get; set; }
+
+        private void OnYesClicked()
+        {
+            ModalService.SetDialogResult(true);
+            ModalService.OnClose();
+        }
+
+        private void OnNoClicked()
+        {
+            ModalService.SetDialogResult(false);
+            ModalService.OnClose();
+        }
 }

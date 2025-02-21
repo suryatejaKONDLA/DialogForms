@@ -6,5 +6,6 @@ public enum ButtonTypes
     OkCancel,
     SaveCancel,
     DeleteCancel,
-    Cancel
+    Cancel,
+    YesNo,
 }

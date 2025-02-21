@@ -9,6 +9,8 @@ public class ModalOption
     public ButtonTypes ButtonType { get; set; }
     public bool IsLoading { get; set; }
     public bool ShowFooter { get; set; }
+    public bool ShowBody { get; set; } = true;
     public bool IsDraggable { get; set; } = true;
     public ActionType ActionType { get; set; }
+    public ModalSize ModalSize { get; set; } = ModalSize.Regular;
 }

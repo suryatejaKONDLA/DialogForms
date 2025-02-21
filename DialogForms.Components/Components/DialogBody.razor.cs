@@ -9,4 +9,6 @@ public partial class DialogBody : ComponentBase
     [Parameter] public RenderFragment BodyTemplate { get; set; }
 
     [Parameter] public bool IsLoading { get; set; }
+
+    [Parameter] public bool ShowBody { get; set; } = true;
 }

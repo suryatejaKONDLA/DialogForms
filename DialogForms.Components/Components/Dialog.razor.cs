@@ -56,6 +56,7 @@ public partial class Dialog : ComponentBase, IDisposable
         ChildComponent = options.ChildComponent;
         Parameters = options.Parameters;
         IsVisible = true;
+        Message = options.Message;
         IsLoading = options.IsLoading;
         Size = options.ModalSize;
         ButtonType = options.ButtonType;

@@ -11,4 +11,6 @@ public partial class DialogBody : ComponentBase
     [Parameter] public bool IsLoading { get; set; }
 
     [Parameter] public bool ShowBody { get; set; } = true;
+   
+    [Parameter] public string Message { get; set; }
 }

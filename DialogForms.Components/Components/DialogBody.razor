@@ -21,6 +21,10 @@
             <DynamicComponent Parameters="@Parameters"
                               Type="@ChildComponent" />
         }
+        else if (!string.IsNullOrEmpty(Message))
+        {
+            <h6 class="p-2 fw-bold">@Message</h6>
+        }
         else
         {
             <div class="modal-body">

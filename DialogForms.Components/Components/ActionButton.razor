@@ -70,13 +70,13 @@
         case ButtonTypes.YesNo:
             <button autofocus
                     class="btn btn-primary"
-                    @onclick="@OnYesClicked"
+                    @onclick="@OnNoClicked"
                     title="Close"
                     type="button">
                 <span class="bi-x-square"></span>
             </button>
             <button class="btn btn-danger"
-                    @onclick="@OnNoClicked"
+                    @onclick="@OnYesClicked"
                     title="Delete"
                     type="button">
                 <span class="bi-trash"></span>

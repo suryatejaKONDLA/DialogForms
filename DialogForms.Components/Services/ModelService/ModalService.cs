@@ -29,7 +29,7 @@ public class ModalService : IModalService
 
     public async Task<bool> ShowConfirmationAsync(string title, string message)
     {
-        ConfirmationTcs = new TaskCompletionSource<bool>();
+        ConfirmationTcs = new();
 
         var options = new ModalOption
         {
@@ -37,7 +37,7 @@ public class ModalService : IModalService
             Message = message,
             ButtonType = ButtonTypes.YesNo,
             ShowFooter = true,
-            ShowBody = false,
+            ShowBody = true,
             ActionType = ActionType.Delete,
             ModalSize = ModalSize.Small
         };

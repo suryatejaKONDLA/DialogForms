@@ -14,7 +14,7 @@
         case ButtonTypes.OkCancel:
             <button autofocus
                     class="btn btn-primary"
-                    @onclick="@CancelButtonClick"
+                    @onclick="@OnNoClicked"
                     title="Close"
                     type="button">
                 <span class="bi-x-square"></span>
@@ -30,7 +30,7 @@
         case ButtonTypes.SaveCancel:
             <button autofocus
                     class="btn btn-primary"
-                    @onclick="@CancelButtonClick"
+                    @onclick="@OnNoClicked"
                     title="Close"
                     type="button">
                 <span class="bi-x-square"></span>
@@ -47,7 +47,7 @@
         case ButtonTypes.DeleteCancel:
             <button autofocus
                     class="btn btn-primary"
-                    @onclick="@CancelButtonClick"
+                    @onclick="@OnNoClicked"
                     title="Close"
                     type="button">
                 <span class="bi-x-square"></span>
@@ -61,7 +61,7 @@
             break;
         case ButtonTypes.Cancel:
             <button class="btn btn-primary"
-                    @onclick="@CancelButtonClick"
+                    @onclick="@OnNoClicked"
                     title="Close"
                     type="button">
                 <span class="bi-x-square"></span>

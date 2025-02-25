@@ -3,18 +3,16 @@
     {
         <div>
             <div class="modal-footer">
-                <div class="dialog-footer">
-                    @{
-                        if (FooterTemplate is not null)
-                        {
-                            @FooterTemplate
-                        }
-                        else
-                        {
-                            <ActionButton ButtonType="@(ButtonType)"></ActionButton>
-                        }
+                @{
+                    if (FooterTemplate is not null)
+                    {
+                        @FooterTemplate
                     }
-                </div>
+                    else
+                    {
+                        <ActionButton ButtonType="@(ButtonType)"></ActionButton>
+                    }
+                }
             </div>
         </div>
     }

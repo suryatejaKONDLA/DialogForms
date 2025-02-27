@@ -1,0 +1,12 @@
+[
+  {
+    "groupId": 1,
+    "lineOfBusiness": "TPA",
+    "groupNo": "GRP12345",
+    "groupName": "Group Name Example",
+    "dbaOrTradeName": "Trade Name Example",
+    "isActive": true,
+    "isCompleted": false,
+    "modifiedBy": "PAI\\mvanga"
+  }
+]
